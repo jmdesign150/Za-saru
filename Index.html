@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitanje za tebe ❤️</title>
+    <style>
+        body {
+            background-color: #ffe6e6; /* Svetlo roze pozadina */
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden; /* Sprečava skrolovanje kad dugme beži */
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            padding: 0 20px;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        #yesBtn {
+            background-color: #28a745; /* Zeleno za DA */
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background-color: #dc3545; /* Crveno za NE */
+            color: white;
+            position: absolute; /* Ovo omogućava da dugme leti po ekranu */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Stil za poruku nakon klika */
+        #success-message {
+            display: none;
+            color: #d63384;
+            font-size: 2rem;
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        img {
+            max-width: 300px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="content">
+        <h1>Da li želiš da budeš moja devojka za Dan zaljubljenih? 🌹</h1>
+        <div class="container">
+            <button id="yesBtn" onclick="saidYes()">DA</button>
+            <button id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">NE</button>
+        </div>
+    </div>
+
+    <div id="success-message">
+        <h1>Jeeeeeej! Znao sam! ❤️🥂</h1>
+        <p>Vidimo se 14. februara!</p>
+        <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Happy Cat">
+    </div>
+
+    <script>
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+            noBtn.style.position = "absolute"; 
+        }
+
+        function saidYes() {
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            
+            // Opciono: Možeš pustiti konfete ovde ako želiš da dodamo taj kod
+        }
+    </script>
+</body>
+</html>
