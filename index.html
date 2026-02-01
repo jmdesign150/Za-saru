@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="sr">
 <head>
@@ -6,7 +7,7 @@
     <title>Pitanje za tebe ❤️</title>
     <style>
         body {
-            background-color: #ffe6e6; /* Svetlo roze pozadina */
+            background-color: #ffe6e6;
             font-family: 'Arial', sans-serif;
             text-align: center;
             height: 100vh;
@@ -15,18 +16,26 @@
             justify-content: center;
             align-items: center;
             margin: 0;
-            overflow: hidden; /* Sprečava skrolovanje kad dugme beži */
+            overflow: hidden; 
         }
 
         h1 {
             color: #d63384;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            padding: 0 20px;
+            font-size: 2rem;
+            margin: 20px;
         }
 
-        .container {
+        .img-container img {
+            max-width: 250px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .btn-container {
             position: relative;
+            width: 100%;
+            height: 100px;
         }
 
         button {
@@ -35,33 +44,25 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
-            margin: 10px;
             font-weight: bold;
+            transition: 0.2s;
         }
 
         #yesBtn {
-            background-color: #28a745; /* Zeleno za DA */
+            background-color: #28a745;
             color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        #yesBtn:hover {
-            transform: scale(1.1);
+            z-index: 10;
         }
 
         #noBtn {
-            background-color: #dc3545; /* Crveno za NE */
+            background-color: #dc3545;
             color: white;
-            position: absolute; /* Ovo omogućava da dugme leti po ekranu */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: absolute; /* Bitno da bi moglo da se pomera */
+            left: 55%; /* Početna pozicija pored DA */
         }
-        
-        /* Stil za poruku nakon klika */
+
         #success-message {
             display: none;
-            color: #d63384;
-            font-size: 2rem;
             animation: popIn 0.5s ease-out;
         }
 
@@ -69,46 +70,43 @@
             0% { transform: scale(0); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
-        
-        img {
-            max-width: 300px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
 
     <div id="content">
+        <div class="img-container">
+            <img src="pitanje.jpg" alt="Pitanje">
+        </div>
         <h1>Da li želiš da budeš moja devojka za Dan zaljubljenih? 🌹</h1>
-        <div class="container">
+        <div class="btn-container">
             <button id="yesBtn" onclick="saidYes()">DA</button>
-            <button id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">NE</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NE</button>
         </div>
     </div>
 
     <div id="success-message">
+        <div class="img-container">
+            <img src="odgovor.jpg" alt="Slavlje">
+        </div>
         <h1>Jeeeeeej! Znao sam! ❤️🥂</h1>
         <p>Vidimo se 14. februara!</p>
-        <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Happy Cat">
     </div>
 
     <script>
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
+            // Izračunavanje nasumične pozicije unutar vidljivog dela ekrana
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-            noBtn.style.position = "absolute"; 
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
         }
 
         function saidYes() {
             document.getElementById('content').style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
-            
-            // Opciono: Možeš pustiti konfete ovde ako želiš da dodamo taj kod
         }
     </script>
 </body>
