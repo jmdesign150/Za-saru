@@ -5,60 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pitanje za tebe ❤️</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background-color: #ffe6e6;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 0;
-            overflow: hidden;
+            overflow: hidden; /* Sprečava pojavu skrola kad dugme beži */
+        }
+
+        #content, #success-message {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
         }
 
         .img-container img {
-            max-width: 250px;
+            max-width: 80%;
+            height: auto;
             border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
 
-        h1 { color: #d63384; margin-bottom: 40px; padding: 0 10px; }
+        h1 {
+            color: #d63384;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
 
-        .container {
-            position: relative;
-            width: 300px;
-            height: 300px; /* Prostor u kojem će NE da kruži */
+        .btn-wrapper {
             display: flex;
             justify-content: center;
-            align-items: center;
+            gap: 20px;
+            height: 50px; /* Rezervisan prostor za dugmiće */
+            position: relative;
         }
 
         button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 12px 30px;
+            font-size: 1.1rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.1s;
+            transition: transform 0.1s ease;
         }
 
         #yesBtn {
             background-color: #28a745;
             color: white;
-            z-index: 10;
+            z-index: 100;
         }
 
         #noBtn {
             background-color: #dc3545;
             color: white;
-            position: absolute;
-            white-space: nowrap;
+            position: relative; /* Na početku je u liniji sa DA */
+            z-index: 100;
         }
 
-        #success-message { display: none; }
+        #success-message {
+            display: none;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -68,9 +91,9 @@
             <img src="pitanje.jpg" alt="Pitanje">
         </div>
         <h1>Da li želiš da budeš moja devojka za Dan zaljubljenih? 🌹</h1>
-        <div class="container">
+        <div class="btn-wrapper">
             <button id="yesBtn" onclick="saidYes()">DA</button>
-            <button id="noBtn" onmouseover="startOrbit()" ontouchstart="startOrbit()">NE</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NE</button>
         </div>
     </div>
 
@@ -83,39 +106,30 @@
     </div>
 
     <script>
-        let angle = 0;
-        let orbiting = false;
-        const radius = 100; // Koliko daleko od "DA" će da kruži
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            
+            // Prebacujemo ga u absolute tek kad krene da beži
+            noBtn.style.position = 'fixed';
 
-        function startOrbit() {
-            orbiting = true;
-        }
+            const padding = 50; // Margina od ivica ekrana da ne pobegne skroz
+            
+            // Računamo slobodan prostor na ekranu
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-        // Funkcija koja pomera dugme u krug
-        function animate() {
-            if (orbiting) {
-                const noBtn = document.getElementById('noBtn');
-                
-                // Matematika za kruženje (sinus i kosinus)
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
+            // Generišemo nasumične koordinate unutar granica
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
 
-                noBtn.style.transform = `translate(${x}px, ${y}px)`;
-                
-                angle += 0.15; // Brzina kruženja - povećaj za brže, smanji za sporije
-            }
-            requestAnimationFrame(animate);
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         }
 
         function saidYes() {
             document.getElementById('content').style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
-            orbiting = false;
         }
-
-        // Pokreće animaciju čim se učita stranica
-        animate();
     </script>
 </body>
 </html>
-
